@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<h3 class="mb-3">Inventario</h3>
+
+<form class="mb-3" method="get">
+  <div class="input-group">
+    <span class="input-group-text">🔎</span>
+    <input name="q" value="{{q}}" class="form-control" placeholder="Buscar por SKU o nombre">
+    <a class="btn btn-outline-secondary" href="{% url 'inventario:importar' %}">Importar</a>
+    <a class="btn btn-success" href="{% url 'inventario:crear' %}">Nuevo</a>
+  </div>
+</form>
+
+<div class="table-responsive bg-white rounded p-2">
+<table class="table table-sm align-middle">
+  <thead>
+    <tr>
+      <th>SKU</th>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th class="text-end">Precio ($)</th>
+      <th class="text-end">Stock</th>
+      <th class="text-end">Stock mínimo</th>
+      <th>Activo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in productos %}
+    <tr class="{% if p.stock|default:0 <= p.stock_minimo|default:0 %}table-warning{% endif %}">
+      <td>{{ p.sku }}</td>
+      <td>{{ p.nombre }}</td>
+      <td>{{ p.categoria|default:"" }}</td>
+      <td class="text-end">${{ p.precio_unitario|floatformat:0 }}</td>
+      <td class="text-end">{{ p.stock|default:0 }}</td>
+      <td class="text-end">{{ p.stock_minimo|default:0 }}</td>
+      <td>{% if p.activo %}✅{% else %}❌{% endif %}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-primary" href="{% url 'inventario:editar' p.id %}">Editar</a>
+        <a class="btn btn-sm btn-outline-danger" href="{% url 'inventario:eliminar' p.id %}" onclick="return confirm('¿Eliminar?')">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="8" class="text-center text-muted">Sin resultados.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

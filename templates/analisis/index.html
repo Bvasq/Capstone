@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Análisis{% endblock %}
+
+{% block head %}
+<style>
+  .analysis-grid{
+    display:grid; gap:18px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .chart-card{ min-height: 320px; }
+  @media (max-width: 992px){
+    .analysis-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Patrones de consumo</h2>
+
+<form method="get" class="row g-3 mb-4">
+  <div class="col-md-3">
+    <label class="form-label">Desde</label>
+    <input type="date" name="desde" value="{{ desde }}" class="form-control">
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Hasta</label>
+    <input type="date" name="hasta" value="{{ hasta }}" class="form-control">
+  </div>
+  <div class="col-md-2 d-flex align-items-end">
+    <button class="btn btn-primary w-100">Aplicar</button>
+  </div>
+</form>
+
+<div class="bg-white p-3 rounded mb-4 chart-card">
+  <h6 class="mb-3">Ventas diarias ($)</h6>
+  <div style="height:260px">
+    <canvas id="chartLine"></canvas>
+  </div>
+</div>
+
+<div class="analysis-grid">
+  <div class="bg-white p-3 rounded chart-card">
+    <h6 class="mb-3">Top productos por cantidad</h6>
+    <div style="height:260px">
+      <canvas id="chartTop"></canvas>
+    </div>
+  </div>
+  <div class="bg-white p-3 rounded chart-card">
+    <h6 class="mb-3">Ventas por categoría ($)</h6>
+    <div style="height:260px">
+      <canvas id="chartPie"></canvas>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# Datos seguros (no rompen el HTML aunque vengan vacíos) #}
+{{ fechas         |json_script:"fechas" }}
+{{ total_por_dia  |json_script:"total_por_dia" }}
+{{ top_labels     |json_script:"top_labels" }}
+{{ top_cantidades |json_script:"top_cantidades" }}
+{{ cat_labels     |json_script:"cat_labels" }}
+{{ cat_montos     |json_script:"cat_montos" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function(){
+  const get = (id, fallback='[]') => JSON.parse(document.getElementById(id)?.textContent || fallback);
+
+  const L_FECHAS     = get('fechas');
+  const L_TOTAL_DIA  = get('total_por_dia');
+  const L_TOP_LABELS = get('top_labels');
+  const L_TOP_CANT   = get('top_cantidades');
+  const L_CAT_LABELS = get('cat_labels');
+  const L_CAT_MONTOS = get('cat_montos');
+
+  const make = (id, cfg) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    new Chart(el.getContext('2d'), cfg);
+  };
+
+  make('chartLine', {
+    type: 'line',
+    data: {
+      labels: L_FECHAS,
+      datasets: [{
+        label: 'Ventas $',
+        data: L_TOTAL_DIA,
+        tension: 0.3,
+        borderWidth: 2,
+        fill: true
+      }]
+    },
+    options: { responsive:true, maintainAspectRatio:false }
+  });
+
+  make('chartTop', {
+    type: 'bar',
+    data: {
+      labels: L_TOP_LABELS,
+      datasets: [{ label: 'Unidades', data: L_TOP_CANT }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      scales: { y: { beginAtZero:true } },
+      plugins: { legend: { display:false } }
+    }
+  });
+
+  make('chartPie', {
+    type: 'doughnut',
+    data: {
+      labels: L_CAT_LABELS,
+      datasets: [{ data: L_CAT_MONTOS }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'60%' }
+  });
+})();
+</script>
+{% endblock %}
+

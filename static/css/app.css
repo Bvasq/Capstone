@@ -1,0 +1,77 @@
+/* Fondo general suave */
+body{ background:#ffeef8; }
+
+/* Tarjetas blancas con sombra */
+.bg-white{ box-shadow:0 6px 16px rgba(31,41,55,.08); border-radius:16px; }
+
+/* Botones un poco más redondeados */
+.btn{ border-radius:12px; }
+
+/* Pastilla de menú */
+.menu-stack{ padding-top:14px; padding-left:16px; }
+.menu-pill{
+  display:block; width:92%;
+  background:#ffe08a; color:#1f2937; font-weight:800; font-size:22px;
+  line-height:1; padding:16px 22px; margin:14px 0; text-decoration:none;
+  border-radius:18px; box-shadow:0 4px 10px rgba(0,0,0,.08);
+  transition: transform .06s ease, box-shadow .12s ease;
+}
+.menu-pill:hover{ color:#1f2937; transform:translateY(-1px); box-shadow:0 8px 18px rgba(0,0,0,.12); }
+.menu-pill.active{ background:#ffd24d; }
+.offcanvas-start{ width: 400px;px; border-right:0; }
+/* ====== Top bar en lavanda + logo más grande ====== */
+:root{
+  /* Lavanda suave acorde al mockup */
+  --lavender: #b9b6ff;
+}
+
+/* Si usas la barra personalizada (.topbar) */
+.topbar{
+  background: var(--lavender) !important;
+}
+
+/* Si en alguna vista sigues usando la navbar de Bootstrap */
+.navbar,
+.navbar.bg-primary,
+.navbar-dark.bg-primary{
+  background: var(--lavender) !important;
+  box-shadow: 0 4px 16px rgba(31,41,55,.08);
+}
+
+/* Logo centrado y más grande */
+.brand-logo{
+  max-height: 84px;           /* <-- ajusta aquí si quieres más/menos */
+  display: block;
+  margin: 8px auto;           /* centrado vertical/horizontal */
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.08));
+}
+
+/* En móviles, un poco más pequeño para que no rompa el layout */
+@media (max-width: 576px){
+  .brand-logo{ max-height: 60px; margin: 6px auto; }
+}
+/* ====== Botones en celeste pastel ====== */
+.btn-primary {
+  background-color: #a8d8ff !important;   /* celeste pastel */
+  border-color: #a8d8ff !important;
+  color: #1f2937 !important;              /* texto gris oscuro */
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover (ligeramente más intenso) */
+.btn-primary:hover {
+  background-color: #93ccff !important;
+  border-color: #93ccff !important;
+  transform: translateY(-1px);
+}
+
+/* Active (presionado) */
+.btn-primary:active {
+  background-color: #7fc2ff !important;
+  border-color: #7fc2ff !important;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+
