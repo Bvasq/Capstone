@@ -35,7 +35,7 @@
       <td class="text-end">${{ p.precio_unitario|floatformat:0 }}</td>
       <td class="text-end">{{ p.stock|default:0 }}</td>
       <td class="text-end">{{ p.stock_minimo|default:0 }}</td>
-      <td>{% if p.activo %}✅{% else %}❌{% endif %}</td>
+      <td>{% if p.activo %}{% else %}{% endif %}</td>
       <td class="text-end">
         <a class="btn btn-sm btn-primary" href="{% url 'inventario:editar' p.id %}">Editar</a>
         <a class="btn btn-sm btn-outline-danger" href="{% url 'inventario:eliminar' p.id %}" onclick="return confirm('¿Eliminar?')">Eliminar</a>

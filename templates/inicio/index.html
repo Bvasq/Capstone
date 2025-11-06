@@ -5,10 +5,8 @@
 
 {% block head %}
 <style>
-  /* Ocultar navbar global en esta página */
   .navbar { display:none; }
 
-  /* Barra superior lavanda con bordes redondeados */
   .topbar-lavender{
     background:#bdbbff;
     border-bottom-left-radius: 60px;
@@ -17,11 +15,9 @@
   }
   .topbar-title{ font-weight:700; font-size:28px; line-height:1; }
 
-  /* Botón hamburguesa */
   .hamburger-btn{ border:0; background:transparent; padding:0 0 0 10px; }
   .hamburger-btn span{ display:block; width:34px; height:3px; background:#1f2937; margin:6px 0; border-radius:3px; }
 
-  /* Hero (sólo título e imágenes) */
   .hero{ text-align:center; padding: 48px 12px 8px; }
   .hero-logo{ height:120px; width:auto; }
   .brand-line-1{ font-weight:800; font-size:56px; margin:0; }
@@ -33,22 +29,19 @@
     .hero-logo{ height:90px; }
   }
 
- /* ===== Menú desplegable estilo mockup ===== */
 .offcanvas-start{ width: 360px; border-right:0; }
 .offcanvas-header{ background:#bdbbff; }
 .offcanvas-title{ font-weight:700; }
 
-/* Contenedor para separar los “pills” del borde izquierdo */
 .menu-stack{
   padding-top: 14px;
-  padding-left: 16px;    /* deja “aire” a la izquierda como en el mockup */
+  padding-left: 16px;
 }
 
-/* Botón/Item amarillo */
 .menu-pill{
   display:block;
   width: 92%;
-  background:#ffe08a;           /* amarillo pastel */
+  background:#ffe08a;
   color:#1f2937;
   font-weight:800;
   font-size:22px;
@@ -61,14 +54,12 @@
   transition: transform .06s ease, box-shadow .12s ease;
 }
 
-/* Hover/click */
 .menu-pill:hover{
   color:#1f2937;
   transform: translateY(-1px);
   box-shadow:0 8px 18px rgba(0,0,0,.12);
 }
 
-/* Activo (opcional) */
 .menu-pill.active{
   background:#ffd24d;
 }
@@ -77,7 +68,6 @@
 {% endblock %}
 
 {% block content %}
-  <!-- Barra superior lavanda con botón que abre el menú -->
   <div class="topbar-lavender d-flex justify-content-between align-items-center">
     <div class="d-flex align-items-center">
       <span class="topbar-title">Menú</span>
@@ -88,7 +78,6 @@
     <div class="fw-bold" style="font-size:22px;">Admin</div>
   </div>
 
-  <!-- Hero: solo título + botellas (se eliminaron los botones centrales) -->
   <section class="hero">
     <div class="d-flex justify-content-center align-items-center gap-4">
       <img src="{% static 'img/botella.png' %}" class="hero-logo" alt="Botella izquierda">
@@ -100,7 +89,6 @@
     </div>
   </section>
 
- <!-- OFFCANVAS MENÚ – estilo mockup -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="menuOffcanvas" aria-labelledby="menuOffcanvasLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="menuOffcanvasLabel">Menú principal</h5>

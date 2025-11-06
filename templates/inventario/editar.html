@@ -6,44 +6,37 @@
 <form method="post" class="row g-3 bg-white p-3 rounded">
   {% csrf_token %}
 
-  <!-- SKU -->
   <div class="col-md-6">
     <label class="form-label">SKU</label>
     <input name="sku" class="form-control" value="{{ p.sku }}" required>
   </div>
 
-  <!-- Precio unitario -->
   <div class="col-md-6">
     <label class="form-label">Precio unitario ($)</label>
     <input name="precio_unitario" type="number" step="0.01" min="0"
            class="form-control" value="{{ p.precio_unitario|default:'0' }}" required>
   </div>
 
-  <!-- Nombre -->
   <div class="col-md-6">
     <label class="form-label">Nombre</label>
     <input name="nombre" class="form-control" value="{{ p.nombre }}" required>
   </div>
 
-  <!-- Stock actual -->
   <div class="col-md-6">
     <label class="form-label">Stock</label>
     <input name="stock" type="number" min="0" class="form-control" value="{{ p.stock|default:'0' }}">
   </div>
 
-  <!-- Categoría -->
   <div class="col-md-6">
     <label class="form-label">Categoría</label>
     <input name="categoria" class="form-control" value="{{ p.categoria|default:'' }}">
   </div>
 
-  <!-- Stock mínimo -->
   <div class="col-md-6">
     <label class="form-label">Stock mínimo</label>
     <input name="stock_minimo" type="number" min="0" class="form-control" value="{{ p.stock_minimo|default:'0' }}">
   </div>
 
-  <!-- Activo -->
   <div class="col-md-6">
     <div class="form-check mt-4">
       <input name="activo" class="form-check-input" type="checkbox" {% if p.activo %}checked{% endif %}>
@@ -51,7 +44,6 @@
     </div>
   </div>
 
-  <!-- Botones -->
   <div class="col-12">
     <button class="btn btn-primary">Guardar cambios</button>
     <a class="btn btn-outline-secondary" href="{% url 'inventario:lista' %}">Volver</a>

@@ -54,7 +54,7 @@ def confirmar_venta(request):
                     producto=p,
                     cantidad=cant,
                     precio_unitario=precio,
-                    subtotal=sub,     # ← IMPORTANTE
+                    subtotal=sub,
                 )
 
                 p.stock -= cant

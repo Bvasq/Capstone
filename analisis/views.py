@@ -1,4 +1,3 @@
-# analisis/views.py
 from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import Sum, F, DecimalField, ExpressionWrapper
@@ -13,7 +12,6 @@ def index(request):
     ds = request.GET.get("desde")
     hs = request.GET.get("hasta")
 
-    # rango de fechas seguro
     try:
         desde = datetime.strptime(ds, "%Y-%m-%d").date() if ds else hoy - timedelta(days=30)
     except Exception:
@@ -24,7 +22,7 @@ def index(request):
     except Exception:
         hasta = hoy
 
-    # 1) Ventas diarias ($)
+    # Esto es el modulo de la venta diarioa
     ventas_diarias = (
         Venta.objects.filter(fecha__date__gte=desde, fecha__date__lte=hasta)
         .annotate(dia=TruncDate("fecha"))
@@ -35,7 +33,7 @@ def index(request):
     vd_labels = [v["dia"].strftime("%Y-%m-%d") for v in ventas_diarias]
     vd_data   = [float(v["total"] or 0) for v in ventas_diarias]
 
-    # 2) Top productos por cantidad
+    #top productos
     top = (
         VentaItem.objects.filter(venta__fecha__date__gte=desde, venta__fecha__date__lte=hasta)
         .values("producto__nombre")
@@ -45,7 +43,7 @@ def index(request):
     top_labels = [t["nombre"] for t in top]
     top_data   = [int(t["cantidad"] or 0) for t in top]
 
-    # 3) Ventas por categoría ($)  ---> OJO: alias 'monto', NO 'subtotal'
+    # Monto de lawea
     monto_expr = ExpressionWrapper(
         F("cantidad") * F("precio_unitario"),
         output_field=DecimalField(max_digits=12, decimal_places=2)

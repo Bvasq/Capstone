@@ -1,4 +1,4 @@
-# ventas/tests/test_flow.py
+#Test globales
 from decimal import Decimal
 from django.test import TestCase
 from inventario.models import Producto
@@ -6,7 +6,6 @@ from ventas.models import Venta, VentaItem
 
 class VentasFlowTests(TestCase):
     def test_crear_venta_actualiza_total(self):
-        # productos
         p1 = Producto.objects.create(
             sku="CERV-001", nombre="Lager 355ml",
             precio_unitario=Decimal("1000.00"),
@@ -19,12 +18,10 @@ class VentasFlowTests(TestCase):
         )
 
         v = Venta.objects.create(total=Decimal("0"))
-        # usa el nombre de campo correcto: precio_unitario
+
         VentaItem.objects.create(venta=v, producto=p1, cantidad=2, precio_unitario=p1.precio_unitario)
         VentaItem.objects.create(venta=v, producto=p2, cantidad=1, precio_unitario=p2.precio_unitario)
 
-        # si tu modelo recalcula total automáticamente, refresca;
-        # si no, calcula aquí y guarda:
         v.refresh_from_db()
         if v.total == 0:
             v.total = Decimal("2") * p1.precio_unitario + Decimal("1") * p2.precio_unitario

@@ -1,4 +1,3 @@
-# inventario/views.py
 import csv, io
 from decimal import Decimal, InvalidOperation
 from django.contrib.auth.decorators import login_required
@@ -10,14 +9,13 @@ from django.db.models.deletion import ProtectedError
 
 from .models import Producto
 
-# --- helper para decimales (acepta '' y comas) ---
 def to_decimal(val):
     if val is None:
         return Decimal("0")
     s = str(val).strip()
     if s == "":
         return Decimal("0")
-    s = s.replace(",", ".")  # permitir 1,50
+    s = s.replace(",", ".")
     try:
         return Decimal(s)
     except InvalidOperation:
@@ -40,7 +38,7 @@ def crear(request):
             sku=request.POST["sku"],
             nombre=request.POST["nombre"],
             categoria=request.POST.get("categoria",""),
-            precio_unitario=to_decimal(request.POST.get("precio_unitario")),  # <- FIX
+            precio_unitario=to_decimal(request.POST.get("precio_unitario")),  # esto hay que verlo bien
             stock=int(request.POST.get("stock",0) or 0),
             stock_minimo=int(request.POST.get("stock_minimo",0) or 0),
             activo=True
@@ -56,7 +54,7 @@ def editar(request, pk):
         p.sku = request.POST["sku"]
         p.nombre = request.POST["nombre"]
         p.categoria = request.POST.get("categoria","")
-        p.precio_unitario = to_decimal(request.POST.get("precio_unitario"))  # <- FIX
+        p.precio_unitario = to_decimal(request.POST.get("precio_unitario"))
         p.stock = int(request.POST.get("stock",0) or 0)
         p.stock_minimo = int(request.POST.get("stock_minimo",0) or 0)
         p.activo = bool(request.POST.get("activo"))
@@ -101,7 +99,7 @@ def importar(request):
                 defaults={
                     "nombre": row.get("nombre",""),
                     "categoria": row.get("categoria",""),
-                    "precio_unitario": to_decimal(row.get("precio_unitario")),  # <- FIX
+                    "precio_unitario": to_decimal(row.get("precio_unitario")),
                     "stock": int(row.get("stock") or 0),
                     "stock_minimo": int(row.get("stock_minimo") or 0),
                     "activo": (str(row.get("activo","1")).lower() in ["1","true","sí","si","y","yes"]),

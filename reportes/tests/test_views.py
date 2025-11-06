@@ -1,4 +1,3 @@
-# reportes/tests/test_views.py
 from decimal import Decimal
 from django.test import TestCase
 from django.urls import reverse
@@ -7,7 +6,6 @@ from ventas.models import Venta, VentaItem
 
 class ReportesViewsTests(TestCase):
     def setUp(self):
-        # Creamos algunos productos
         self.prod1 = Producto.objects.create(
             sku="PROD-001",
             nombre="Cerveza Rubia",
@@ -27,7 +25,6 @@ class ReportesViewsTests(TestCase):
             activo=True,
         )
 
-        # Creamos una venta con ítems
         self.venta = Venta.objects.create(total=Decimal("0"))
         VentaItem.objects.create(
             venta=self.venta,
@@ -42,7 +39,6 @@ class ReportesViewsTests(TestCase):
             precio_unitario=self.prod2.precio_unitario,
         )
 
-        # Actualizamos total de la venta
         self.venta.total = Decimal("3") * self.prod1.precio_unitario + Decimal("1") * self.prod2.precio_unitario
         self.venta.save(update_fields=["total"])
 
@@ -59,7 +55,6 @@ class ReportesViewsTests(TestCase):
         """
         Comprueba que los datos de ventas creados se reflejen en el reporte.
         """
-        # Si tienes una vista o API que muestra datos de ventas o gráficos:
         url = reverse("reportes:index")
         response = self.client.get(url)
         self.assertContains
